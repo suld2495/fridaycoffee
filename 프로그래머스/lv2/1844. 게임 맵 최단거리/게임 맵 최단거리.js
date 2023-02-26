@@ -1,5 +1,5 @@
 function solution(maps) {
-    let directions = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+    let directions = [[-1, 0], [0, -1], [1, 0], [0, 1]];
     let queue = [[0, 0, 1]];
     const n = maps[0].length - 1;
     const m = maps.length - 1;
