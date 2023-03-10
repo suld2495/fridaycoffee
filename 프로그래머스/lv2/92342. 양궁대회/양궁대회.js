@@ -13,7 +13,7 @@ function solution(n, info) {
                 } else if (v < list[i]) {
                     acc += 10 - i;
                 }
-
+                
                 return acc;
             }, 0); 
 
@@ -21,18 +21,17 @@ function solution(n, info) {
               max = score;
               maxList = list;
             } else if (score === max) {
-              const isMax = [...list]
-                .sort((a, b) => b - a)
-                .some((v, i) => maxList[i] < v);
-                
-              if (isMax) {
-                maxList = list;
-              }  
+              for (let i = info.length - 1; i >= 0; i -= 1) {
+                if (maxList[i] < list[i]) {
+                  maxList = list;
+                  break;
+                }
+              }
             }
           
             continue;
         }
-                
+        
         for (let i = index; i < info.length; i += 1) {
             if (info[i] < n - count) {
                 if (i === info.length - 1) {
