@@ -1,4 +1,5 @@
 function solution(arr)
 {
-    return arr.filter((v, i) => i === 0 ? true : arr[i - 1] !== v);
+    
+return arr.filter((val,index) => val != arr[index+1]);
 }
