@@ -1,25 +1,25 @@
 function solution(n, computers) {
-    const list = [];
+  const list = [];
+
+  if (n === 1) {
+    return 1;
+  }
+
+  for (let i = 0; i < computers.length; i += 1) {
+    dfs(i, i, i + 1);
+  }
+
+  function dfs(prev, current, network) {
+    if (list[current] || !computers[prev][current]) {
+      return;
+    }
+
+    list[current] = network;
+
     for (let i = 0; i < computers.length; i += 1) {
-        list.push(dfs([i], computers[i]));
+      dfs(current, i, network);
     }
-    
-    function dfs(list, computer, i) {
-        for (let j = 0; j < computer.length; j += 1) {
-            if (i !== j && computer[j] && !list.includes(j)) {
-                list.push(j);
-                dfs(list, computers[j]);
-            }
-        }       
-        
-        return list;
-    }
-    
-    return new Set(
-        list.map(
-            (l) => l
-                .sort((a, b) => a - b)
-                .join('')
-        )
-    ).size;
+  }
+
+  return new Set(list).size;
 }
