@@ -1,26 +1,19 @@
 function solution(want, number, discount) {
-  const map = want.reduce((acc, value, i) => {
-      acc[value] = i;
-      return acc;
-  }, {});
-  
-  let list = Array(want.length).fill(0);
   let count = 0;
-  
-  for (let i = 0; i < discount.length; i += 1) {
-    
-      if (typeof map[discount[i]] === 'number') {
-        list[map[discount[i]]] += 1;
+
+  for (let i = 0; i < discount.length - 9; i += 1) {
+    const list = discount.slice(i, i + 10);
+
+    let j = 0;
+    for (; j < want.length; j += 1) {
+      if (list.filter(v => v === want[j]).length !== number[j]) {
+        break;
       }
-      
-      if (i > 9 && typeof map[discount[i - 10]] === 'number') {
-          list[map[discount[i - 10]]] -= 1;
-          
-      }
-      
-      if (list.every((value, i) => value === number[i])) {
-          count += 1;    
-      }
+    }
+
+    if (j === want.length) {
+      count += 1;
+    }
   }
   
   return count;
