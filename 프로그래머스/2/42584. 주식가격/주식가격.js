@@ -1,17 +1,14 @@
-// 거꾸로 계산한다.
-// 비교시 자신과 동일한 숫자가 있는지 확인
-// 동일한 숫자를 만나면 지금까지의 index + 동일한 숫자가 가지는 인덱스
 function solution(prices) {
-    prices.reverse();
-    const result = [0];
+    const result = [];
     
-    for (let i = 1; i < prices.length; i += 1) {
-        let j = i - 1;
-        for (; j >= 0; j -= 1) {
+    for (let i = 0; i < prices.length - 1; i += 1) {
+        let count = 1;
+        for (let j = i + 1; j < prices.length - 1; j += 1) {
             if (prices[j] < prices[i]) break;
+            count += 1;
         }
-        result.push(i - Math.max(j, 0));
+        result.push(count);
     }
-    
-    return result.reverse();
+    result.push(0);
+    return result;
 }
