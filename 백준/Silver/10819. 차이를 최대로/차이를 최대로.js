@@ -1,32 +1,37 @@
 const fs = require('fs');
-const input = fs.readFileSync('/dev/stdin').toString().split('\n');
+let [N, inputs] = fs.readFileSync('/dev/stdin').toString().split('\n');
 
-const numbers = input[1].split(' '); // 20 1 15 8 4 10
-const result = new Set();
-
-function dfs(list, number) {
-    if (number.split(',').length === numbers.length) {
-        result.add(number);
-        return;
-    }
-
-    for (let i = 0; i < list.length; i += 1) {
-        dfs(list.filter((_, index) => index !== i), `${number ? `${number},` : ''}${list[i]}`);
-    }
-}
-
-dfs(numbers, '');
+N = Number(N);
+inputs = inputs.split(" ").map(Number);
 
 let max = -Infinity;
+const visited = [];
 
-for (n of result) {
-    let sum = 0;
-    n = n.split(',');
-    for (let i = 0; i < n.length - 1; i += 1) {
-        sum += Math.abs(n[i] - n[i + 1]);
-    }
+function calculate(list) {
+  let sum = 0;
 
-    max = Math.max(max, sum);
+  for (let i = 0; i < N - 1; i += 1) {
+    sum += Math.abs(list[i] - list[i + 1]);
+  }
+
+  return sum;
 }
+
+function dfs(list) {
+  if (list.length === N) {
+    max = Math.max(calculate(list), max);
+    return;
+  }
+
+  for (let i = 0; i < N; i += 1) {
+    if (!visited[i]) {
+      visited[i] = true;
+      dfs([...list, inputs[i]]);
+      visited[i] = false;
+    }
+  }
+}
+
+dfs([]);
 
 console.log(max);
