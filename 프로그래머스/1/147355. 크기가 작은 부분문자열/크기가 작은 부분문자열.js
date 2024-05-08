@@ -1,12 +1,12 @@
 function solution(t, p) {
-    const { length } = p;
     let start = 0;
-    let end = length;
+    let end = p.length;
     let count = 0;
+    p = Number(p);
     
     while (end <= t.length) {
         const number = t.slice(start++, end++);
-        if (Number(number) <= Number(p)) count += 1;
+        if (Number(number) <= p) count += 1;
     }
     
     return count;
