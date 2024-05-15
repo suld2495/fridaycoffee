@@ -15,7 +15,7 @@ function check(str) {
 }
 
 function dfs(str) {
-  if (str.length === N && check(str)) {
+  if (str.length === N) {
     console.log(str);
     return true;
   }  
