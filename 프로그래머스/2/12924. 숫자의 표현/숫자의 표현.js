@@ -1,17 +1,9 @@
-function solution(n) {
-  let count = 0;
-
-  for (let i = 1; i <= Math.abs(n); i += 1) {
-    let sum = 0;
-
-    for (let j = i; j <= n && sum < n; j += 1) {
-      sum += j;
-
-      if (sum === n) {
-        count += 1;
-      }
+function solution(num) {
+    var answer = 0;
+    for (var i = 1; i <= num; i++) {
+        if ((num % i == 0) && (i % 2 == 1)) {
+            answer++;
+        }
     }
-  }
-
-  return count;
+    return answer;
 }
