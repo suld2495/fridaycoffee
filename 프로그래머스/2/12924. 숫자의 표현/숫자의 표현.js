@@ -1,24 +1,17 @@
-function solution(num) {
-	let count = 0;
-	
-	function dfs(i, sum, check) {
-		if (sum === num) {
-			count += 1;
-			return;
-		}
-		
-		if (i > num 
-			|| sum > num 
-			|| (sum + i) > num
-			|| (!check && (i * 2) > num)) {
-			return;
-		}
-		
-		dfs(i + 1, sum + i, true);
-		!check && dfs(i + 1, 0, false);            
-	}
-	
-	dfs(1, 0, false);
-	
-	return count + 1;
+function solution(n) {
+  let count = 0;
+
+  for (let i = 1; i <= Math.abs(n); i += 1) {
+    let sum = 0;
+
+    for (let j = i; j <= n && sum < n; j += 1) {
+      sum += j;
+
+      if (sum === n) {
+        count += 1;
+      }
+    }
+  }
+
+  return count;
 }
