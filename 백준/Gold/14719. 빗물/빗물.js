@@ -1,24 +1,21 @@
 const fs = require('fs');
-let [[N, K], inputs] = fs.readFileSync('/dev/stdin').toString().split('\n').map((v) => v.split(' ').map(Number));
+let [[, W], inputs] = fs.readFileSync('/dev/stdin').toString().split('\n')
+  .map((value) => value.split(' ').map(Number));
 
-const nums = [inputs[0]];
+const list = [inputs[0]];
+const reverseList = [];
+reverseList[W - 1] = inputs[W - 1];
 
-for (let i = 1; i < K; i++) {
-  nums[i] = nums[i - 1] > inputs[i] ? nums[i - 1] : inputs[i];
+for (let i = 1; i < W; i += 1) {
+  list[i] = Math.max(list[i - 1], inputs[i]); 
+  reverseList[W - i - 1] = Math.max(reverseList[W - i], inputs[W - i - 1]); 
 }
 
-const numsReverse = [];
-numsReverse[K - 1] = inputs[K - 1];
+let result = 0;
 
-for (let i = K - 2; i >= 0; i--) {
-  numsReverse[i] = numsReverse[i + 1] > inputs[i] ? numsReverse[i + 1] : inputs[i];
+for (let i = 0; i < W; i += 1) {
+  const sum = Math.min(list[i], reverseList[i]);
+  result += sum - inputs[i];
 }
 
-const sums = [];
-
-for (let i = 0; i < K; i++) {
-  const value = Math.min(numsReverse[i], nums[i]);
-  sums[i] = Math.abs(inputs[i] - value);
-}
-
-console.log(sums.reduce((acc, cur) => acc + cur));
+console.log(result);
