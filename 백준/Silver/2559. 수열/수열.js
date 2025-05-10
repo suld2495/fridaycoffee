@@ -1,22 +1,18 @@
 const fs = require('fs');
-let [[N, K], inputs] = fs.readFileSync('/dev/stdin').toString().split('\n').map((v) => v.split(' ').map(Number)) ;
+let [[, N], inputs] = fs.readFileSync('/dev/stdin').toString().split('\n')
+  .map((value) => value.split(' ').map(Number));
 
-const sums = [0];
 
-for (let i = 1; i < N + 1; i += 1) {
-  sums[i] = sums[i - 1] + inputs[i - 1];
+const list = [0, inputs[0]];
+
+for (let i = 1; i < inputs.length; i += 1) {
+  list[i + 1] = inputs[i] + list[i];
 }
 
-let result = -Infinity;
+let sum = -Infinity;
 
-for (let i = K; i < N + 1; i += 1) {
-  result = Math.max(result, sums[i] - sums[i - K]);
+for (let i = N; i <= inputs.length; i += 1) {
+  sum = Math.max(sum, list[i] - list[i - N]);
 }
 
-if (K === N) {
-  console.log(sums[N]);  
-} else {
-  console.log(result);
-}
-
-
+console.log(sum);
