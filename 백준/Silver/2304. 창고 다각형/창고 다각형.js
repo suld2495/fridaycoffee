@@ -1,28 +1,40 @@
 const fs = require('fs');
-let [, ...inputs] = fs.readFileSync('/dev/stdin').toString().split('\n')
-inputs = inputs.map((value) => value.split(' ').map(Number))
-  .sort(([a], [b]) => a - b);
+let [[N], ...inputs] = fs.readFileSync('/dev/stdin').toString().trim().split('\n').map((v) => v.split(' ').map(Number)) ;
 
-const min = inputs[0][0];
-const max = inputs[inputs.length - 1][0];
-inputs = inputs.reduce((acc, [key, value]) => {
-  acc[key] = value;
-  return acc;
-}, {});
+inputs.sort(([a], [b]) => a - b);
 
-const height = [];
-const reverseHeight = [];
-reverseHeight[max] = inputs[max];
+const length = inputs[inputs.length - 1][0];
+const list = Array(length + 1).fill(0);
+const reverseList = [...list, 0];
 
-for (let i = min; i <= max; i += 1) {
-  height[i] = (Math.max(height[i - 1] || 0, inputs[i] || 0));
-  reverseHeight[max - i + min] = Math.max(reverseHeight[max - i + min + 1] || 0, inputs[max - i + min] || 0);
+let start = 0;
+let end = inputs.length - 1;
+
+for (let i = 1; i <= length; i += 1) {
+  const first = inputs[start];
+  const last = inputs[end];
+
+  if (i === first[0]) {
+    start += 1;
+
+    list[i] = Math.max(list[i - 1], first[1]);
+  } else {
+    list[i] = list[i - 1];
+  }
+
+  if (length - i + 1 === last?.[0]) {
+    end -= 1;
+
+    reverseList[length - i + 1] = Math.max(reverseList[length - i + 2], last[1]);
+  } else {
+    reverseList[length - i + 1] = reverseList[length - i + 2];
+  }
 }
 
-let result = 0;
-for (let i = min; i <= max; i += 1) {
-  const sum = Math.min(height[i], reverseHeight[i]);
-  result += sum;
+let sum = 0;
+
+for (let i = 0; i < list.length; i += 1) {
+  sum += Math.min(list[i], reverseList[i]);
 }
 
-console.log(result);
+console.log(sum)
