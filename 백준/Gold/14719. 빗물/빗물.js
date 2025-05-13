@@ -1,21 +1,27 @@
 const fs = require('fs');
-let [[, W], inputs] = fs.readFileSync('/dev/stdin').toString().split('\n')
-  .map((value) => value.split(' ').map(Number));
+let [[H, W], inputs] = fs.readFileSync('/dev/stdin').toString().split('\n').map((v) => v.split(' ').map(Number));
 
-const list = [inputs[0]];
-const reverseList = [];
-reverseList[W - 1] = inputs[W - 1];
+const max = inputs.reduce((a, b) => a > b ? a : b);
+const minIndex = inputs.indexOf(max);
+const maxIndex = inputs.lastIndexOf(max);
 
-for (let i = 1; i < W; i += 1) {
-  list[i] = Math.max(list[i - 1], inputs[i]); 
-  reverseList[W - i - 1] = Math.max(reverseList[W - i], inputs[W - i - 1]); 
+let sum = 0;
+let cur = 0;
+
+for (let i = 0; i <= minIndex; i += 1) {
+  cur = Math.max(cur, inputs[i]);
+  sum += Math.max(cur - inputs[i], 0);
 }
 
-let result = 0;
-
-for (let i = 0; i < W; i += 1) {
-  const sum = Math.min(list[i], reverseList[i]);
-  result += sum - inputs[i];
+for (let i = minIndex + 1; i < maxIndex; i += 1) {
+  sum += Math.max(cur - inputs[i], 0);
 }
 
-console.log(result);
+cur = 0;
+
+for (let i = W - 1; i >= maxIndex; i -= 1) {
+  cur = Math.max(cur, inputs[i]);
+  sum += Math.max(cur - inputs[i], 0);
+}
+
+console.log(sum)
